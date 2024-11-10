@@ -11,7 +11,6 @@ def format_menu():
     """This function contains the format of the menu."""
     msg = "-"*50+"""
         MENU
-    [0]. Salir
     [1]. Iniciar SSH Honeypot
     [2]. Consultar API Shodan
     [3]. Consultar API IPAbuseD
@@ -76,10 +75,10 @@ if __name__ == "__main__":
                 except Exception:
                     print("Ha ocurrido un error, intentalo de nuevo")
                 
-            elif option == 0:
-                print("Saliendo...")
-                break
             else:   
                 print(colored("Opcion incorrecta.", 'red'))
+                continue
         except ValueError:
             print(colored("Ingrese un valor de tipo numerico.", 'red'))
+            continue
+        break 
