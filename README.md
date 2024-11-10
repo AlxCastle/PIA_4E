@@ -1,4 +1,4 @@
-# 3o Entregable - Proyecto Final de Ciberseguridad: Módulos de Python y GitHub 🛡️💻
+
 
 ## Descripción
 Este proyecto consiste en la creación de cuatro scripts en Python que realizan diversas tareas de ciberseguridad: análisis de conexiones TCP, detección de servicios sospechosos, consumo de APIs (Shodan e IPAbuseDB), y la implementación de un honeypot SSH. Los scripts aceptan parámetros de entrada y cuentan con menús interactivos para diversas funcionalidades, así como el manejo de errores durante la ejecución.
