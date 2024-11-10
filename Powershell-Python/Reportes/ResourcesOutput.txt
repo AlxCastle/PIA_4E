@@ -1,0 +1,10 @@
+------------2024-11-10 16:37:32------------
+Este es el uso de memoria libre es 67.1994416665285%
+Este es el uso de memoria que se esta utilizando 32.8005583334715%
+Este es el uso de disco libre es 99.9406660796606%
+Este es el uso de disco que se esta utilizando 0.0593339203393631%
+Este es el uso de CPU(procesos) libre es 100%
+Este es el uso de CPU(procesos) que se esta utilizando 0%
+Esta es la cantidad de bytes que se estan enviando en la red 0 1378.4652325129
+Esta es la cantidad de bytes que se estan recibiendo en la red 0 152.324395608159
+
