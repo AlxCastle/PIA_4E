@@ -1,71 +1,72 @@
-#!/bin/bash
+#!/bin/bash 
 
-#Variables
-target="" #Ip
-port_range="" #Port Range
-auto_generate_report=false #HTML Report Parameter
-scan_udp=false  #Enable UDP scan
+# Variables
+target="$1"          # Primer parámetro: IP o dominio
+port_range="$2"      # Segundo parámetro: Rango de puertos
+name="${3:-scan_results}"  # Tercer parámetro: Nombre del archivo (por defecto: scan_results)
+auto_generate_report=false     # Parámetro de reporte en HTML
+scan_udp=false                 # Activar escaneo UDP
 
-#Function to handle errors
+# Función para manejar errores
 handle_error() {
     echo "An error occurred. Check the input parameters and try again."
     exit 1
 }
 
-#Stop the script with Ctrl+C
+# Detener el script con Ctrl+C
 trap handle_error ERR
 
-#Function to scan TCP ports using nmap
+# Función para escanear puertos TCP usando nmap
 scan_ports_tcp() {
     if [ -z "$target" ] || [ -z "$port_range" ]; then
         read -p "Enter the IP or domain to scan: " target
         read -p "Enter the port range to scan (example: 1-1000): " port_range
     fi
 
-    #Get the current date and time
+    # Obtener la fecha y hora actuales
     timestamp=$(date '+%Y-%m-%d %H:%M:%S')
 
     echo "Scanning TCP ports on $target..."
 
-    #Add a header to scan_results.txt file
-    echo "===== TCP SCAN: $timestamp =====" >> scan_results.txt
-    echo "Target: $target" >> scan_results.txt
-    echo "Port range: $port_range" >> scan_results.txt
-    echo "--------------------------------" >> scan_results.txt
+    # Añadir un encabezado al archivo de resultados
+    echo "===== TCP SCAN: $timestamp =====" >> "$name".txt
+    echo "Target: $target" >> "$name".txt
+    echo "Port range: $port_range" >> "$name".txt
+    echo "--------------------------------" >> "$name".txt
 
-    #Run the commando nmap and capture output
+    # Ejecutar el comando nmap y capturar el resultado
     nmap_output=$(nmap -p $port_range -T4 $target)
 
     if [ $? -eq 0 ]; then
-        echo "$nmap_output" >> scan_results.txt
+        echo "$nmap_output" >> "$name".txt
 
-        #Find open and closed ports
+        # Encontrar puertos abiertos y cerrados
         open_ports=$(echo "$nmap_output" | grep -oP '\d+/tcp\s+open' | awk '{print $1}')
         closed_ports=$(echo "$nmap_output" | grep -oP '\d+/tcp\s+closed' | awk '{print $1}')
 
-        #Display the results in the console and add to the report
+        # Mostrar resultados en la consola y agregarlos al reporte
         if [ -z "$open_ports" ]; then
-            echo "No open TCP ports found on $target." >> scan_results.txt
+            echo "No open TCP ports found on $target." >> "$name".txt
             echo "No open TCP ports found on $target."
         else
-            echo "Open TCP ports on $target: $open_ports" >> scan_results.txt
+            echo "Open TCP ports on $target: $open_ports" >> "$name".txt
             echo "Open TCP ports on $target: $open_ports"
         fi
 
         if [ -z "$closed_ports" ]; then
-            echo "No closed TCP ports found on $target." >> scan_results.txt
+            echo "No closed TCP ports found on $target." >> "$name".txt
             echo "No closed TCP ports found on $target."
         else
-            echo "Closed TCP ports on $target: $closed_ports" >> scan_results.txt
+            echo "Closed TCP ports on $target: $closed_ports" >> "$name".txt
             echo "Closed TCP ports on $target: $closed_ports"
         fi
     else
-        echo "Scan failed. Check the IP/Domain or port range." >> scan_results.txt
+        echo "Scan failed. Check the IP/Domain or port range." >> "$name".txt
         echo "Scan failed. Check the IP/Domain or port range."
     fi
 
-    echo "================================" >> scan_results.txt
-    echo "" >> scan_results.txt
+    echo "================================" >> "$name".txt
+    echo "" >> "$name".txt
 
     if [ "$auto_generate_report" = true ]; then
         generate_report
@@ -75,7 +76,7 @@ scan_ports_tcp() {
     port_range=""
 }
 
-#Function to scan UDP ports using nmap
+# Función para escanear puertos UDP usando nmap
 scan_ports_udp() {
     if [ -z "$target" ] || [ -z "$port_range" ]; then
         read -p "Enter the IP or domain to scan: " target
@@ -86,41 +87,41 @@ scan_ports_udp() {
 
     echo "Scanning UDP ports on $target..."
 
-    echo "===== UDP SCAN: $timestamp =====" >> scan_results.txt
-    echo "Target: $target" >> scan_results.txt
-    echo "UDP Port range: $port_range" >> scan_results.txt
-    echo "--------------------------------" >> scan_results.txt
+    echo "===== UDP SCAN: $timestamp =====" >> "$name".txt
+    echo "Target: $target" >> "$name".txt
+    echo "UDP Port range: $port_range" >> "$name".txt
+    echo "--------------------------------" >> "$name".txt
 
     nmap_output=$(nmap -sU -p $port_range -T4 $target)
 
     if [ $? -eq 0 ]; then
-        echo "$nmap_output" >> scan_results.txt
+        echo "$nmap_output" >> "$name".txt
 
         open_ports=$(echo "$nmap_output" | grep -oP '\d+/udp\s+open' | awk '{print $1}')
         closed_ports=$(echo "$nmap_output" | grep -oP '\d+/udp\s+closed' | awk '{print $1}')
 
         if [ -z "$open_ports" ]; then
-            echo "No open UDP ports found on $target." >> scan_results.txt
+            echo "No open UDP ports found on $target." >> "$name".txt
             echo "No open UDP ports found on $target."
         else
-            echo "Open UDP ports on $target: $open_ports" >> scan_results.txt
+            echo "Open UDP ports on $target: $open_ports" >> "$name".txt
             echo "Open UDP ports on $target: $open_ports"
         fi
 
         if [ -z "$closed_ports" ]; then
-            echo "No closed UDP ports found on $target." >> scan_results.txt
+            echo "No closed UDP ports found on $target." >> "$name".txt
             echo "No closed UDP ports found on $target."
         else
-            echo "Closed UDP ports on $target: $closed_ports" >> scan_results.txt
+            echo "Closed UDP ports on $target: $closed_ports" >> "$name".txt
             echo "Closed UDP ports on $target: $closed_ports"
         fi
     else
-        echo "UDP scan failed. Check the IP/Domain or port range." >> scan_results.txt
+        echo "UDP scan failed. Check the IP/Domain or port range." >> "$name".txt
         echo "UDP scan failed. Check the IP/Domain or port range."
     fi
 
-    echo "================================" >> scan_results.txt
-    echo "" >> scan_results.txt
+    echo "================================" >> "$name".txt
+    echo "" >> "$name".txt
 
     if [ "$auto_generate_report" = true ]; then
         generate_report
@@ -130,35 +131,22 @@ scan_ports_udp() {
     port_range=""
 }
 
-#Function to generate an HTML report
-generate_report() {
-    if [ ! -f scan_results.txt ]; then
-        echo "No scan results available. Perform a scan first."
-        return
-    fi
-    echo "Generating report..."
-    echo "<html><body><h1>Port Scan Report</h1><pre>" > report.html
-    cat scan_results.txt >> report.html
-    echo "</pre></body></html>" >> report.html
-    echo "Report generated: report.html"
-}
-
-#Function to analyze scan results
+# Función para analizar resultados
 analyze_results() {
-    if [ ! -f scan_results.txt ]; then
+    if [ ! -f "$name".txt ]; then
         echo "No scan results available. Perform a scan first."
         return
     fi
     echo "Analyzing results..."
-    open_ports=$(grep -oP 'open' scan_results.txt | wc -l)
-    closed_ports=$(grep -oP 'closed' scan_results.txt | wc -l)
+    open_ports=$(grep -oP 'open' "$name".txt | wc -l)
+    closed_ports=$(grep -oP 'closed' "$name".txt | wc -l)
     echo "Open ports: $open_ports"
     echo "Closed ports: $closed_ports"
 }
 
-#Function to clear previous result's files
+# Función para limpiar archivos de resultados anteriores
 clear_results() {
-    rm -f scan_results.txt report.html
+    rm -f "$name".txt "$name".html
     echo "Previous results cleared."
 }
 
@@ -168,10 +156,8 @@ show_menu() {
     echo "======= MENU ======="
     echo "1. Scan TCP ports"
     echo "2. Scan UDP ports"
-    echo "3. Generate HTML report"
     echo "4. Analyze results"
     echo "5. Clear results"
-    echo "6. Exit"
     echo "===================="
 }
 
@@ -218,10 +204,6 @@ while true; do
             ;;
         5)
             clear_results
-            ;;
-        6)
-	    echo "Exiting..."
-            exit 0
             ;;
         *)
             echo "Invalid option, try again."
