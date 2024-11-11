@@ -136,12 +136,20 @@ def menu_bash(name):
                 print(e)
 
         elif option == 2:
-            script_path = os.path.join(os.getcwd(), "port_scan.sh")
-            target = input("Ingrese la IP de la que quiera escanear los puertos: ")
-            port_range = input("Ingrese el rango de puertos que se desean escanear: ")
-            bash_command = f"{script_path} {target} {port_range}"
-            result = subprocess.run(bash_command, shell=True, capture_output=True, text=True, executable="/bin/bash")
-            print(result.stdout)
+            try: 
+                script_path = os.path.join(os.getcwd(), "port_scan.sh")
+                target = input("Ingrese la IP de la que quiera escanear los puertos: ")
+                port_range = input("Ingrese el rango de puertos que se desean escanear: ")
+                bash_command = f"{script_path} {target} {port_range}"
+                result = subprocess.run(bash_command, shell=True, capture_output=True, text=True, executable="/bin/bash")
+                print(result.stdout)
+                data = result.stdout
+
+                with open(f"{name}.txt", "+a") as file: 
+                    file.write(data)
+            except Exception as e:
+                print(e)
+        
 
         elif option == 3:
             menu_python(FileName=name)
@@ -163,4 +171,5 @@ if __name__ == "__main__":
         print("El sistema operativo es:", so)
         print("Por lo tanto no se podrá ejecutar los módulos de bash ni powershell")
         menu_python(name)
+
 
