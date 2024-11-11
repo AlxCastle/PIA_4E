@@ -85,7 +85,7 @@ def menu_python(name):
         
             elif option == 3:
                 APIKEY=input("Ingrese la API key que se usara para conectarse a la API de IPAbuseDB")
-                suspicious_ip(APIKEY,FileName)
+                suspicious_ip(APIKEY,name)
                     
             elif option == 4:
                 try:
