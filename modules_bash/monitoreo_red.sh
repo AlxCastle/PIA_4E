@@ -17,4 +17,4 @@ function network_monitoring {
 }
 
 #
-network_monitoring "$2"
+network_monitoring "$2" 2>&1 || echo "Error: Hubo un problema al ejecutar el monitoreo." >&2
