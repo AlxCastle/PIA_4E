@@ -161,43 +161,47 @@ def menu_bash():
                     break
                 except:
                     print(colored("Valor incorrecto, se tiene que ingresar un numero entero.", 'red'))
+            
+            try: 
 
-            bash_command =  f"./monitoreo_red.sh -n {cant}"
-            result=subprocess.run(bash_command, shell=True, capture_data=True, text=True, executable="/bin/bash")
-            print(result.stderr)
-            print("Resultados:", result.stdout)
+                bash_command =  f"./monitoreo_red.sh -n {cant}"
+                result=subprocess.run(bash_command, shell=True, capture_data=True, text=True, executable="/bin/bash")
+                print(result.stderr)
+                print("Resultados:", result.stdout)
 
-                        
-            import csv
-            import pandas as pd
-            data = result.stdout
-            # Guardar en archivo TXT
-            if format == "txt":
-                file_name = f"{name}.txt"
-                with open(file_name, 'w') as file:
-                    file.write(data)
+                            
+                import csv
+                import pandas as pd
+                data = result.stdout
+                # Guardar en archivo TXT
+                if format == "txt":
+                    file_name = f"{name}.txt"
+                    with open(file_name, 'w') as file:
+                        file.write(data)
 
-            # Guardar en archivo HTML
-            elif format == "html":
-                file_name = f"{name}.html"
-                with open(file_name, 'w') as file:
-                    file.write("<pre>" + data + "</pre>")  # Usar <pre> para mantener el formato de texto
+                # Guardar en archivo HTML
+                elif format == "html":
+                    file_name = f"{name}.html"
+                    with open(file_name, 'w') as file:
+                        file.write("<pre>" + data + "</pre>")  # Usar <pre> para mantener el formato de texto
 
-            # Guardar en archivo CSV
-            elif format == "xlsx":
-                file_name = f"{name}.xlsx"
-                lines = data.splitlines()
-                with open(file_name, 'w', newline='') as file:
-                    writer = csv.writer(file)
-                    for line in lines:
-                        writer.writerow([line])  # Guardar cada línea en una fila del CSV
+                # Guardar en archivo CSV
+                elif format == "xlsx":
+                    file_name = f"{name}.xlsx"
+                    lines = data.splitlines()
+                    with open(file_name, 'w', newline='') as file:
+                        writer = csv.writer(file)
+                        for line in lines:
+                            writer.writerow([line])  # Guardar cada línea en una fila del CSV
 
-            # Guardar en archivo XLSX (Excel)
-            elif format == "html":
-                file_name = f"{name}.html"
-                lines = data.splitlines()
-                df = pd.DataFrame(lines, columns=['data'])  # Crear un DataFrame con cada línea como una fila
-                df.to_excel(file_name, index=False)
+                # Guardar en archivo XLSX (Excel)
+                elif format == "html":
+                    file_name = f"{name}.html"
+                    lines = data.splitlines()
+                    df = pd.DataFrame(lines, columns=['data'])  # Crear un DataFrame con cada línea como una fila
+                    df.to_excel(file_name, index=False)
+            except Exception as e:
+                print(e)
 
 
 
