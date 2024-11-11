@@ -134,8 +134,8 @@ def menu_bash(name):
     """
         print(msg)    
 
-    script_path = os.path.dirname(os.path.abspath(__file__))
-    folder_path = os.path.join(script_path, "modules_bash")
+    #script_path = os.path.dirname(os.path.abspath(__file__))
+    #folder_path = os.path.join(script_path, "modules_bash")
 
     while True: 
         try:
