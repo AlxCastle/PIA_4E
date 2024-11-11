@@ -55,6 +55,94 @@ def get_file_hash(file_path):
             sha256_hash.update(byte_block)
     return sha256_hash.hexdigest()
 
+def menu_python(FileName):
+    def menu():
+        """This function contains the format of the menu."""
+        msg = "-"*50+"""
+            MENU
+        [1]. Iniciar SSH Honeypot
+        [2]. Consultar API Shodan
+        [3]. Consultar API IPAbuseD
+        [4]. Analizar conexiones
+        [5]. Servicios sospechosos
+    """
+        print(msg)
+
+    try:
+        menu()
+        option = int(input("Seleccione una opcion: "))
+        
+        if option == 1: 
+            port = input("Puerto para vincular el servidor SSH (default 2222): ")
+            
+            #Validate the port.
+            while True:
+                try: 
+                    if port == "":
+                        port = 2222
+                        break 
+                    else: 
+                        port = int(port)
+                        while port < 1024 or port > 65535:
+                            port = int(input("Ingrese el puerto en un rango de 1024-65535: "))
+                        break 
+                except ValueError: 
+                    port = input("Es un dato numérico, si no desea ingresar un puerto presione enter: ")
+#            start_honeypot(port)
+            
+        elif option == 2:
+            APIKEY=input("Ingrese la API key que se usara para conectarse a la API de shodan")
+            if "Linux" in so:
+                def scan_ports_tcp(target="192.168.1.1", port_range="1-255"):
+                    bash_command =f"./portscan {target} {port_range}"
+
+                    # Ejecuta el comando y captura la salida
+                    try:
+                        result = subprocess.check_output(['bash', '-c', bash_command], text=True)
+                        open_ports = result.strip()
+                        return open_ports  # Devuelve los puertos abiertos encontrados
+                    except subprocess.CalledProcessError as e:
+                        print(f"Error during scan: {e}")
+                        return None   
+                Ports=scan_ports_tcp() 
+                port_shodan="port: "+str(ports)
+    #           search_vulnerabilities(APIKEY,port_shodan,FileName)             
+            else:
+                ports=input("Ingrese los puertos que quiera ver, en caso de ser mas de uno separarlos por una coma y un espacio")
+                port_shodan="port: "+str(ports)
+    #           search_vulnerabilities(APIKEY,port_shodan,FileName)       
+     
+        elif option == 3:
+            APIKEY=input("Ingrese la API key que se usara para conectarse a la API de IPAbuseDB")
+#           suspicious_ip(APIKEY,FileName)
+                
+        elif option == 4:
+            try:
+                opcion_nombre=int(input("Desea editar el nombre del archivo en donde se guardará el reporte (suspicious_connections_report.txt)? 1-Si 2-No: "))
+                while (opcion_nombre <=0 or opcion_nombre>2):
+                    opcion_nombre = int(input("Opicón no válida, intente nuevamente: "))
+                if opcion_nombre == 1:
+                    print()###Borrar
+#                   analyze_connections(FileName)
+                else:
+                    print()###Borrar
+#                   analyze_connections()
+            except Exception: 
+                print("Ha ocurrido un error, intente nuevamente")
+
+        elif option == 5:
+            try:
+                opcion_generar_excel = int(input("Deseas conservar el excel con los procesos activos? 1-Sí 2-No: "))
+                while opcion_generar_excel<1 or opcion_generar_excel>2:
+                    opcion_generar_excel = int(input("Opción no válida, vuleve a ingresarla: "))
+#               suspicious_services(opcion_generar_excel)
+            except Exception:
+                print("Ha ocurrido un error, intentalo de nuevo")
+                
+        else:   
+            print(colored("Opcion incorrecta.", 'red'))
+    except ValueError:
+        print(colored("Valor incorrecto, se tiene que ingresar un numero entero.", 'red'))
 
 #Display the menu
 def show_menu():
@@ -63,13 +151,13 @@ def show_menu():
     print("2. Listado de archivos ocultos en una carpeta")
     print("3. Revisión de uso de recursos del sistema")
     print("4. Ver permisos de las carpetas (Tarea adicional de ciberseguridad)")
-    print("5. Salir")
+    print("5. Ver las actividades de python")
 
 #Main function
-def main():
+def menu_powershell(name):
     import_powershell_modules(module_path)
     opcion= "0"
-    while opcion != "5":
+    while opcion != range(1,6):
         show_menu()
         opcion= input("Seleccione una opción: ")
 
@@ -108,11 +196,8 @@ def main():
                 print("Opción no válida, vuelve a intentarlo.")
 
         elif opcion == "5":
-            print("Saliendo...")
+            menu_python(name)
             break
 
         else:
             print("Opción inválida, seleccione una opción válida.")
-
-if __name__ == "__main__":
-    main()
