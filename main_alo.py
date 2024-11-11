@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+##!/usr/bin/python3
 
 from termcolor import colored
 import platform
@@ -6,7 +6,6 @@ import argparse
 import os
 import subprocess
 import csv
-import pandas as pd
 
 # Descripción del script y manejo de argumentos
 description = """Este script ejecuta varias tareas de ciberseguridad y genera un reporte en un archivo especificado."""
@@ -133,6 +132,8 @@ def menu_bash(name):
                     writer = csv.writer(file)
                     for line in lines:
                         writer.writerow([line])
+            except Exception as e:
+                print(e)
 
         elif option == 2:
             script_path = os.path.join(os.getcwd(), "port_scan.sh")
@@ -163,8 +164,3 @@ if __name__ == "__main__":
         print("Por lo tanto no se podrá ejecutar los módulos de bash ni powershell")
         menu_python(name)
 
-        
-    else:
-        print("El sistema operativo es:",so)
-        print("Por lo tanto no se podra ejecutar los modulos de bash ni powershell")
-        menu_python(name)
