@@ -7,10 +7,10 @@ import os
 import subprocess
 import csv
 from Powershell-Python import PY-PS
-#from Modules.honeypot_ssh import start_honeypot
-#from Modules.modules_api import search_vulnerabilities, suspicious_ip
-#from Modules.analyze_connections import analyze_connections
-#from Modules.suspicious_services import suspicious_services
+from Modules.honeypot_ssh import start_honeypot
+from Modules.modules_api import search_vulnerabilities, suspicious_ip
+from Modules.analyze_connections import analyze_connections
+from Modules.suspicious_services import suspicious_services
 
 # Descripción del script y manejo de argumentos
 description = """Este script ejecuta varias tareas de ciberseguridad y genera un reporte en un archivo especificado."""
@@ -55,7 +55,7 @@ def menu_python(name):
                             break 
                     except ValueError: 
                         port = input("Es un dato numérico, si no desea ingresar un puerto presione enter: ")
-                #start_honeypot(port)
+                start_honeypot(port)
                 data = "Reporte honeypot, revisar logs"
                 with open(f"{name}.txt", "+a") as file:
                     file.write(data)
@@ -77,15 +77,15 @@ def menu_python(name):
                             return None   
                     Ports=scan_ports_tcp() 
                     port_shodan="port: "+str(ports)
-        #           search_vulnerabilities(APIKEY,port_shodan,FileName)             
+                    search_vulnerabilities(APIKEY,port_shodan,FileName)             
                 else:
                     ports=input("Ingrese los puertos que quiera ver, en caso de ser mas de uno separarlos por una coma y un espacio")
                     port_shodan="port: "+str(ports)
-        #           search_vulnerabilities(APIKEY,port_shodan,FileName)       
+                    search_vulnerabilities(APIKEY,port_shodan,FileName)       
         
             elif option == 3:
                 APIKEY=input("Ingrese la API key que se usara para conectarse a la API de IPAbuseDB")
-    #           suspicious_ip(APIKEY,FileName)
+                suspicious_ip(APIKEY,FileName)
                     
             elif option == 4:
                 try:
@@ -93,11 +93,9 @@ def menu_python(name):
                     while (opcion_nombre <=0 or opcion_nombre>2):
                         opcion_nombre = int(input("Opicón no válida, intente nuevamente: "))
                     if opcion_nombre == 1:
-                        print()###Borrar
-    #                   analyze_connections(FileName)
+                        analyze_connections(FileName)
                     else:
-                        print()###Borrar
-    #                   analyze_connections()
+                        analyze_connections()
                 except Exception: 
                     print("Ha ocurrido un error, intente nuevamente")
 
@@ -106,7 +104,7 @@ def menu_python(name):
                     opcion_generar_excel = int(input("Deseas conservar el excel con los procesos activos? 1-Sí 2-No: "))
                     while opcion_generar_excel<1 or opcion_generar_excel>2:
                         opcion_generar_excel = int(input("Opción no válida, vuleve a ingresarla: "))
-    #               suspicious_services(opcion_generar_excel)
+                    suspicious_services(opcion_generar_excel)
                 except Exception:
                     print("Ha ocurrido un error, intentalo de nuevo")
                     
@@ -133,15 +131,15 @@ def menu_bash(name):
     """
         print(msg)    
 
-    #script_path = os.path.dirname(os.path.abspath(__file__))
-    #folder_path = os.path.join(script_path, "modules_bash")
+    script_path = os.path.dirname(os.path.abspath(__file__))
+    folder_path = os.path.join(script_path, "modules_bash")
 
     while True: 
         try:
             menu()
             option = int(input("Seleccione una opcion: "))
             if option==1:
-                #script_path = os.path.join(folder_path, "monitoreo_red.sh")
+                script_path = os.path.join(folder_path, "monitoreo_red.sh")
                 while True:
                     try:
                         cant = int(input("Cantidad de veces que quiere que se realice el monitoreo: "))
