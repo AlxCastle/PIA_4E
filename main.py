@@ -5,6 +5,7 @@ import platform
 import argparse
 import os
 import subprocess
+from Powershell-Python import PY-PS.py
 #from Modules.honeypot_ssh import start_honeypot
 #from Modules.modules_api import search_vulnerabilities, suspicious_ip
 #from Modules.analyze_connections import analyze_connections
