@@ -95,7 +95,7 @@ def menu_python(FileName):
         print(colored("Valor incorrecto, se tiene que ingresar un numero entero.", 'red'))
 
 
-def menu_bash():
+def menu_bash(name):
     def menu():
         """This function contains the format of the menu."""
         msg = "-"*50 + """
@@ -143,7 +143,7 @@ def menu_bash():
             print(result.stdout)
 
         elif option == 3:
-            menu_python(FileName=file_name)
+            menu_python(FileName=name)
         else:
             print(colored("Opción incorrecta.", 'red'))
     except:
@@ -153,18 +153,18 @@ if __name__ == "__main__":
     if "Windows" in so:
         print("El sistema operativo en el cual está ejecutándose el script es Windows")
         print("Por lo tanto no se podrán correr los módulos de bash")
-        menu_python(file_name)
+        menu_python(name)
     elif "Linux" in so:
         print("El sistema operativo en el cual está ejecutándose el script es Linux")
         print("Por lo tanto no se podrán correr los módulos de powershell")
-        menu_bash()
+        menu_bash(name)
     else:
         print("El sistema operativo es:", so)
         print("Por lo tanto no se podrá ejecutar los módulos de bash ni powershell")
-        menu_python()
+        menu_python(name)
 
         
     else:
         print("El sistema operativo es:",so)
         print("Por lo tanto no se podra ejecutar los modulos de bash ni powershell")
-        menu_python()
+        menu_python(name)
