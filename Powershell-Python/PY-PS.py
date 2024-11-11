@@ -163,7 +163,7 @@ def menu_powershell(name):
 
         if opcion == "1":
             print("Revisión de hashes de archivos y consulta a la API de VirusTotal.")
-            output_file= os.path.join(module_path, "Reportes/VirusTotalOutput.txt")
+            output_file= os.path.join(module_path, "..\VirusTotalOutput.txt")
             execute_powershell("Get-VirusTotalTest", output_file, opcion)
 
         elif opcion == "2":
@@ -171,12 +171,12 @@ def menu_powershell(name):
             opcion_archivos= int(input("Presione [1]-Para ver solo los archivos ocultos [2]-Para ver todos los archivos incluyendo los ocultos: "))
             while opcion_archivos != 1 and opcion_archivos != 2:
                 opcion_archivos= int(input("Opción inválida, intenta nuevamente: "))
-            output_file= os.path.join(module_path, "Reportes\HiddenFilesOutput.txt")
+            output_file= os.path.join(module_path, "..\HiddenFilesOutput.txt")
             execute_powershell(f'Show-HiddenFiles -path "{path}" -op {opcion_archivos}', output_file, opcion)
 
         elif opcion == "3":
             print("Revisión de uso de recursos del sistema.")
-            output_file= os.path.join(module_path, "Reportes\ResourcesOutput.txt")
+            output_file= os.path.join(module_path, "..\ResourcesOutput.txt")
             execute_powershell("View-Resources", output_file, opcion)
 
         elif opcion == "4":
@@ -184,13 +184,13 @@ def menu_powershell(name):
 
             if opcion2 == "1":
                 path= input("Ingrese la ruta de la carpeta que desea ver sus permisos: ")
-                output_file= os.path.join(module_path, "Reportes\PermissionsOutput.txt")
+                output_file= os.path.join(module_path, "..\PermissionsOutput.txt")
                 execute_powershell(f'Show-Permissions -FolderPath "{path}"', output_file, opcion)
 
             elif opcion2 == "2":
                 path1= input("Ingrese la ruta de la primera carpeta: ")
                 path2= input("Ingrese la ruta de la segunda carpeta: ")
-                output_file= os.path.join(module_path, "Reportes\ComparePermissionsOutput.txt")
+                output_file= os.path.join(module_path, "..\ComparePermissionsOutput.txt")
                 execute_powershell(f'Compare-Permissions -Folder1 "{path1}" -Folder2 "{path2}"', output_file, opcion)
             else:
                 print("Opción no válida, vuelve a intentarlo.")
