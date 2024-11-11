@@ -142,7 +142,7 @@ def menu_bash(name):
             menu()
             option = int(input("Seleccione una opcion: "))
             if option==1:
-                script_path = os.path.join(folder_path, "monitoreo_red.sh")
+                #script_path = os.path.join(folder_path, "monitoreo_red.sh")
                 while True:
                     try:
                         cant = int(input("Cantidad de veces que quiere que se realice el monitoreo: "))
@@ -153,7 +153,7 @@ def menu_bash(name):
                     except:
                         print(colored("Valor incorrecto, se tiene que ingresar un numero entero.", 'red'))
                 try:
-                    bash_command = f"./monitoreo_red.sh -n {cant}"
+                    bash_command = f"./p.sh -n {cant}"
                     result = subprocess.run(bash_command, shell=True, capture_output=True, text=True, executable="/bin/bash")
                     print(result.stderr)
                     print("Resultados:", result.stdout)
@@ -209,5 +209,7 @@ if __name__ == "__main__":
         print("El sistema operativo es:", so)
         print("Por lo tanto no se podrá ejecutar los módulos de bash ni powershell")
         menu_python(name)
+
+
 
 
