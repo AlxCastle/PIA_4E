@@ -6,6 +6,7 @@ import argparse
 import os
 import subprocess
 import csv
+from Powershell-Python import PY-PS
 #from Modules.honeypot_ssh import start_honeypot
 #from Modules.modules_api import search_vulnerabilities, suspicious_ip
 #from Modules.analyze_connections import analyze_connections
@@ -197,7 +198,7 @@ if __name__ == "__main__":
     if "Windows" in so:
         print("El sistema operativo en el cual está ejecutándose el script es Windows")
         print("Por lo tanto no se podrán correr los módulos de bash")
-        menu_python(name)
+        PY-PS.menu_powershell(name)
     elif "Linux" in so:
         print("El sistema operativo en el cual está ejecutándose el script es Linux")
         print("Por lo tanto no se podrán correr los módulos de powershell")
