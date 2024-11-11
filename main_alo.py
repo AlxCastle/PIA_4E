@@ -12,26 +12,8 @@ import pandas as pd
 description = """Este script ejecuta varias tareas de ciberseguridad y genera un reporte en un archivo especificado."""
 parser = argparse.ArgumentParser(description=description, epilog="Se debe ingresar el nombre del archivo donde se guardarán los resultados.", formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument("--Name", dest="FileName", help="Nombre del archivo de salida para el reporte de resultados (sin extensión, el formato será añadido automáticamente)", default="Reporte")
-parser.add_argument("--Format", dest="ReportFormat", choices=['txt', 'csv', 'xlsx', 'html'], default='txt', help="Formato del archivo de salida. Extensión automática según el formato elegido (default: txt).")
 params = parser.parse_args()
-
-# Obtener los valores de los parámetros
 name = params.FileName
-format = params.ReportFormat
-
-# Asignar la extensión según el formato
-if format == "txt":
-    file_name = f"{name}.txt"
-elif format == "csv":
-    file_name = f"{name}.csv"
-elif format == "xlsx":
-    file_name = f"{name}.xlsx"
-elif format == "html":
-    file_name = f"{name}.html"
-
-# Imprimir el nombre del archivo con la extensión adecuada
-print(f"El archivo de salida será: {file_name}")
-
 so = platform.platform()
 
 def menu_python(FileName):
@@ -145,31 +127,12 @@ def menu_bash():
                 print("Resultados:", result.stdout)
                 data = result.stdout
 
-                if format == "txt":
-                    file_name = f"{name}.txt"
-                    with open(file_name, 'w') as file:
-                        file.write(data)
-
-                elif format == "html":
-                    file_name = f"{name}.html"
-                    with open(file_name, 'w') as file:
-                        file.write("<pre>" + data + "</pre>")
-
-                elif format == "csv":
-                    file_name = f"{name}.csv"
-                    lines = data.splitlines()
-                    with open(file_name, 'w', newline='') as file:
-                        writer = csv.writer(file)
-                        for line in lines:
-                            writer.writerow([line])
-
-                elif format == "xlsx":
-                    file_name = f"{name}.xlsx"
-                    lines = data.splitlines()
-                    df = pd.DataFrame(lines, columns=['data'])
-                    df.to_excel(file_name, index=False)
-            except Exception as e:
-                print(e)
+                file_name = f"{name}.csv"
+                lines = data.splitlines()
+                with open(file_name, 'w', newline='') as file:
+                    writer = csv.writer(file)
+                    for line in lines:
+                        writer.writerow([line])
 
         elif option == 2:
             script_path = os.path.join(os.getcwd(), "port_scan.sh")
