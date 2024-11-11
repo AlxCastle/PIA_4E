@@ -5,10 +5,10 @@ import platform
 import argparse
 import os
 import subprocess
-from Modules.honeypot_ssh import start_honeypot
-from Modules.modules_api import search_vulnerabilities, suspicious_ip
-from Modules.analyze_connections import analyze_connections
-from Modules.suspicious_services import suspicious_services
+#from Modules.honeypot_ssh import start_honeypot
+#from Modules.modules_api import search_vulnerabilities, suspicious_ip
+#from Modules.analyze_connections import analyze_connections
+#from Modules.suspicious_services import suspicious_services
 
 import argparse
 
@@ -85,7 +85,7 @@ def menu_python(FileName):
 
                     # Ejecuta el comando y captura la salida
                     try:
-                        result = subprocess.check_output(['bash', '-c', bash_command], text=True)
+                        result = subprocess.check_data(['bash', '-c', bash_command], text=True)
                         open_ports = result.strip()
                         return open_ports  # Devuelve los puertos abiertos encontrados
                     except subprocess.CalledProcessError as e:
@@ -163,16 +163,52 @@ def menu_bash():
                     print(colored("Valor incorrecto, se tiene que ingresar un numero entero.", 'red'))
 
             bash_command =  f"./monitoreo_red.sh -n {cant}"
-            result=subprocess.run(bash_command, shell=True, capture_output=True, text=True, executable="/bin/bash")
+            result=subprocess.run(bash_command, shell=True, capture_data=True, text=True, executable="/bin/bash")
             print(result.stderr)
             print("Resultados:", result.stdout)
+
+                        
+            import csv
+            import pandas as pd
+            data = result.stdout
+            # Guardar en archivo TXT
+            if format == "txt":
+                file_name = f"{name}.txt"
+                with open(file_name, 'w') as file:
+                    file.write(data)
+
+            # Guardar en archivo HTML
+            elif format == "html":
+                file_name = f"{name}.html"
+                with open(file_name, 'w') as file:
+                    file.write("<pre>" + data + "</pre>")  # Usar <pre> para mantener el formato de texto
+
+            # Guardar en archivo CSV
+            elif format == "xlsx":
+                file_name = f"{name}.xlsx"
+                lines = data.splitlines()
+                with open(file_name, 'w', newline='') as file:
+                    writer = csv.writer(file)
+                    for line in lines:
+                        writer.writerow([line])  # Guardar cada línea en una fila del CSV
+
+            # Guardar en archivo XLSX (Excel)
+            elif format == "html":
+                file_name = f"{name}.html"
+                lines = data.splitlines()
+                df = pd.DataFrame(lines, columns=['data'])  # Crear un DataFrame con cada línea como una fila
+                df.to_excel(file_name, index=False)
+
+
+
+
 
         elif option==2:
             script_path = os.path.join(script_path, "port_scan.sh")
             target=input("Ingrese la ip de la que quiera escanear los puertos")
             port_range=input("Ingrese el rango de puertos que se desean escanear")
             bash_command =f"./port_scan.sh {target} {port_range}"
-            result=subprocess.run(bash_command, shell=True, capture_output=True, text=True, executable="/bin/bash")
+            result=subprocess.run(bash_command, shell=True, capture_data=True, text=True, executable="/bin/bash")
         elif option==3:
             menu_python(FileName=file_name)
         else:
