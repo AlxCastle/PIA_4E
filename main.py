@@ -24,10 +24,6 @@ params = parser.parse_args()
 name = params.FileName
 so = platform.platform()
 
-main_path = os.path.dirname(os.path.abspath(__file__))
-report_directory = os.path.join(main_path, "Reportes")
-os.makedirs(report_directory, exist_ok=True)
-
 def hash_file(file_path):
         """This function calculates the SHA-256 hash of a file and prints it with the date and location."""
         try:
