@@ -68,7 +68,7 @@ def menu_bash(name):
                     while True:
                         try: 
                             cant = int(cant)
-                            if cant <1:
+                            if cant <= 0:
                                 print("Tiene que ser un valor positivo")
                             else:
                                 break
@@ -121,20 +121,39 @@ def menu_bash(name):
                                 port = str(port)
                                 break  
                         except:
-                            print("Es un valor numerico")       
-
-                    bash_command = f"{script_path} {target} {port} {folder_path}"
-                    result = subprocess.run(bash_command, shell=True, capture_output=True, text=True, executable="/bin/bash")
-                    result.check_returncode()  # Verifica si el proceso fue exitoso
-                    print("Concluido")
-                    print(result.stdout)
-                    #data = result.stdout
-
-                    #with open(f"{name}.txt", "+a") as file: 
-                    #    file.write(data)
+                            print("Es un valor numerico")   
                     
-                    # Llamar a hash_file para imprimir el hash
-                    #hash_file(f"{name}.txt")
+                    def menu():
+                        """Este menú contiene opciones específicas para tareas de Bash."""
+                        msg = "-"*50+"""
+                            MENU
+                        [1]. Scan TCP ports
+                        [2]. Scan UDP ports
+                    """
+                        print(msg)   
+                    while True: 
+                        try:
+                            menu()
+                            option = int(input("Seleccione una opción: "))
+                            if option == 1 or option ==2 :
+                                bash_command = f"{script_path} {target} {port} {option}"
+                                result = subprocess.run(bash_command, shell=True, capture_output=True, text=True, executable="/bin/bash")
+                                result.check_returncode()  # Verifica si el proceso fue exitoso
+                                print(result.stdout)
+                                data = result.stdout
+
+                                with open(f"{name}.txt", "+a") as file: 
+                                   file.write(data)
+                                
+                                # Llamar a hash_file para imprimir el hash
+                                hash_file(f"{name}.txt")
+                                break
+                            else:
+                                print(colored("Opción incorrecta.", 'red'))
+                                continue
+                        except ValueError:
+                            print(colored("Valor incorrecto, se tiene que ingresar un número entero.", 'red'))
+                            continue
 
                 except subprocess.CalledProcessError as e:
                     print(f"Error al ejecutar el comando bash: {e}")
@@ -169,3 +188,4 @@ if __name__ == "__main__":
         print("El sistema operativo es:", so)
         print("Por lo tanto no se podrá ejecutar los módulos de bash ni PowerShell")
         # Aquí iría el llamado al menú de Python si se desea
+
