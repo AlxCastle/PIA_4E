@@ -1,19 +1,20 @@
 #!/usr/bin/python3
 
-from termcolor import colored
+import os
 import platform
 import argparse
-import os
 import subprocess
 import csv
 import hashlib
 import re
 from datetime import datetime
+from termcolor import colored
 from Powershell-Python import PY-PS
 from Modules.honeypot_ssh import start_honeypot
 from Modules.modules_api import search_vulnerabilities, suspicious_ip
 from Modules.analyze_connections import analyze_connections
 from Modules.suspicious_services import suspicious_services
+
 
 
 description = """Este script ejecuta varias tareas de ciberseguridad y genera un reporte en un archivo especificado."""
@@ -23,6 +24,9 @@ params = parser.parse_args()
 name = params.FileName
 so = platform.platform()
 
+main_path = os.path.dirname(os.path.abspath(__file__))
+report_directory = os.path.join(main_path, "Reportes")
+os.makedirs(report_directory, exist_ok=True)
 
 
 def menu_python(name):
