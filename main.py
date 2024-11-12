@@ -276,14 +276,17 @@ def menu_bash(name):
 
 if __name__ == "__main__":
     if "Windows" in so:
-        print("El sistema operativo en el cual está ejecutándose el script es Windows")
-        print("Por lo tanto no se podrán correr los módulos de bash")
+        print("El sistema operativo en el cual está ejecutándose el script es Windows.")
+        print("Por lo tanto no se podrán correr los módulos de bash, pero se ejecutaran los de powershell y python.")
+        print("-"*50+"\n")
         menu_powershell(name)
     elif "Linux" in so:
         print("El sistema operativo en el cual está ejecutándose el script es Linux")
-        print("Por lo tanto no se podrán correr los módulos de powershell")
+        print("Por lo tanto no se podrán correr los módulos de powershell, pero se ejecutaran los de bash y python.")
+        print("-"*50+"\n")
         menu_bash(name)
     else:
         print("El sistema operativo es:", so)
-        print("Por lo tanto no se podrá ejecutar los módulos de bash ni powershell")
+        print("Por lo tanto no se podrá ejecutar los módulos de bash ni powershell, pero se ejecutaran los de python.")
+        print("-"*50+"\n")
         menu_python(name)
