@@ -28,6 +28,25 @@ main_path = os.path.dirname(os.path.abspath(__file__))
 report_directory = os.path.join(main_path, "Reportes")
 os.makedirs(report_directory, exist_ok=True)
 
+def hash_file(file_path):
+        """Calcula el hash SHA-256 de un archivo y lo imprime junto con la fecha y ubicación del archivo."""
+        try:
+            with open(file_path, "rb") as f:
+                file_data = f.read()
+                hash = hashlib.sha256(file_data)
+                hashed = hash.hexdigest()
+            
+            current_date = datetime.now()
+            format_date = current_date.strftime("%Y-%m-%d %H:%M:%S")
+            print("Fecha:", format_date)
+            print("Ruta del reporte:", file_path)
+            print("Hash SHA-256:", hashed)
+    
+        except FileNotFoundError:
+            print(f"Error: El archivo '{file_path}' no se encontró.")
+
+        except Exception as e:
+            print(f"Ocurrió un error al calcular el hash: {e}")
 
 def menu_python(name):
     def menu():
@@ -65,7 +84,10 @@ def menu_python(name):
                     except ValueError: 
                         port = input("Es un dato numérico, si no desea ingresar un puerto presione enter: ")
                 start_honeypot(port)
-                print("Revisar logs")
+                dir_path =  os.path.dirname(os.path.abspath(__file__))
+                report_path = os.path.join(dir_path, "Reportes")
+                file_path = os.path.join(report_path, f"report_ssh_honeypot.log")
+                hash_file(file_path)
                 
             elif option == 2:
                 APIKEY=input("Ingrese la API key que se usara para conectarse a la API de shodan")
@@ -128,26 +150,6 @@ def menu_python(name):
 def menu_bash(name):
     dir_path = os.path.dirname(os.path.abspath(__file__))
     folder_path = os.path.join(dir_path, "modules_bash")
-
-    def hash_file(file_path):
-        """Calcula el hash SHA-256 de un archivo y lo imprime junto con la fecha y ubicación del archivo."""
-        try:
-            with open(file_path, "rb") as f:
-                file_data = f.read()
-                hash = hashlib.sha256(file_data)
-                hashed = hash.hexdigest()
-            
-            current_date = datetime.now()
-            format_date = current_date.strftime("%Y-%m-%d %H:%M:%S")
-            print("Fecha:", format_date)
-            print("Ruta del reporte:", file_path)
-            print("Hash SHA-256:", hashed)
-    
-        except FileNotFoundError:
-            print(f"Error: El archivo '{file_path}' no se encontró.")
-
-        except Exception as e:
-            print(f"Ocurrió un error al calcular el hash: {e}")
 
     def menu():
         """Este menú contiene opciones específicas para tareas de Bash."""
