@@ -34,7 +34,7 @@ def hash_file(file_path):
     
     except FileNotFoundError:
         print(f"Error: El archivo '{file_path}' no se encontró.")
-        
+
     except Exception as e:
         print(f"Ocurrió un error al calcular el hash: {e}")
 
@@ -50,8 +50,8 @@ def menu_bash(name):
     """
         print(msg)    
 
-    script_path = os.path.dirname(os.path.abspath(__file__))
-    folder_path = os.path.join(script_path, "modules_bash")
+    dir_path = os.path.dirname(os.path.abspath(__file__))
+    folder_path = os.path.join(dir_path, "modules_bash")
 
     while True: 
         try:
@@ -123,17 +123,18 @@ def menu_bash(name):
                         except:
                             print("Es un valor numerico")       
 
-                    bash_command = f"{script_path} {target} {port}"
+                    bash_command = f"{script_path} {target} {port} {folder_path}"
                     result = subprocess.run(bash_command, shell=True, capture_output=True, text=True, executable="/bin/bash")
                     result.check_returncode()  # Verifica si el proceso fue exitoso
+                    print("Concluido")
                     print(result.stdout)
-                    data = result.stdout
+                    #data = result.stdout
 
-                    with open(f"{name}.txt", "+a") as file: 
-                        file.write(data)
+                    #with open(f"{name}.txt", "+a") as file: 
+                    #    file.write(data)
                     
                     # Llamar a hash_file para imprimir el hash
-                    hash_file(f"{name}.txt")
+                    #hash_file(f"{name}.txt")
 
                 except subprocess.CalledProcessError as e:
                     print(f"Error al ejecutar el comando bash: {e}")
