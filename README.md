@@ -20,6 +20,34 @@ Instala los paquetes necesarios utilizando:
 pip install -r requirements.txt
 ```  
 
+[main.py](http://_vscodecontentref_/2)
+ModulesBash/
+    [monitoreo_red.sh](http://_vscodecontentref_/3)
+    [port_scan.sh](http://_vscodecontentref_/4)
+ModulesPython/
+    __init__.py
+    __pycache__/
+    [analyze_connections.py](http://_vscodecontentref_/5)
+    [honeypot_ssh.py](http://_vscodecontentref_/6)
+    [modules_api.py](http://_vscodecontentref_/7)
+    [suspicious_services.py](http://_vscodecontentref_/8)
+PowershellToPython/
+    __init__.py
+    __pycache__/
+    Module_1/
+        [Module_1.psm1](http://_vscodecontentref_/9)
+    Module_2/
+        [Module_2.psm1](http://_vscodecontentref_/10)
+    Module_3/
+        [Module_3.psm1](http://_vscodecontentref_/11)
+    Module_4/
+        [Module_4.psm1](http://_vscodecontentref_/12)
+    [PyToPs.py](http://_vscodecontentref_/13)
+[README.md](http://_vscodecontentref_/14)
+[requirements.txt](http://_vscodecontentref_/15)
+
+
+
 ## Instrucciones de Uso
 Clona el repositorio en tu máquina local:
 
