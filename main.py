@@ -16,13 +16,18 @@ from ModulesPython.analyze_connections import analyze_connections
 from ModulesPython.suspicious_services import suspicious_services
 
 
-
+#
 description = """Este script ejecuta varias tareas de ciberseguridad y genera un reporte en un archivo especificado."""
 parser = argparse.ArgumentParser(description=description, epilog="Se debe ingresar el nombre del archivo donde se guardarán los resultados.", formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument("--Name", dest="FileName", help="Nombre del archivo de salida para el reporte de resultados (sin extensión, el formato será añadido automáticamente)", default="Reporte")
 params = parser.parse_args()
 name = params.FileName
 so = platform.platform()
+
+# 
+main_path = os.path.dirname(os.path.abspath(__file__))
+report_directory = os.path.join(main_path, "Reportes")
+os.makedirs(report_directory, exist_ok=True)
 
 def hash_file(file_path):
         """This function calculates the SHA-256 hash of a file and prints it with the date and location."""
