@@ -5,7 +5,7 @@ import json
 
 #Function to search for vulnerabilities in different ports for different IPS
 
-def search_vulnerabilities(APIKEY,Port_shodan,FileName):
+def search_vulnerabilities(APIKEY,Port_shodan,Name):
     logging.basicConfig(filename='module_shodan.log', level=logging.INFO)
     try:
         logging.info("Se intenta entrar en la api con la apikey: %s" % APIKEY)
@@ -29,7 +29,7 @@ def search_vulnerabilities(APIKEY,Port_shodan,FileName):
 
         else:
             logging.info("Se pide el nombre del archivo para generarlo")
-            file_name=FileName
+            file_name=Name
 
             try:
                 logging.info("Se intenta crear el archivo")
@@ -65,7 +65,7 @@ def search_vulnerabilities(APIKEY,Port_shodan,FileName):
 
 #Function to search suspicious IPs and show the reports that are made
 
-def suspicious_ip(APIKEY,FileName):
+def suspicious_ip(APIKEY,Name):
     logging.basicConfig(filename='module_IPAbuseDB.log', level=logging.INFO)
 
     logging.info("Primero se obtiene en variables la url y todo lo que se ocupa para conectarse a la API")
@@ -130,7 +130,7 @@ def suspicious_ip(APIKEY,FileName):
             else:
 
                 if i==0:
-                    file_name=FileName
+                    file_name=Name
                     with open(file_name, "w") as file:
                         file.write("El ip sospechoso es:"+str(r_json_blacklist["data"][i]["ipAddress"]))
                         if "totalReports" in r_json_check["data"]:
