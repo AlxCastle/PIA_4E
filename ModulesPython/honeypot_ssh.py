@@ -6,9 +6,13 @@ import paramiko
 from termcolor import colored
 from datetime import datetime
 import os
-#configure the logging
-main_path = os.path.dirname(os.path.abspath(__file__))
+from pathlib import Path
+#configure logging
+current_path = Path(__file__).resolve()
+parent_path = current_path.parent
+main_path = parent_path.parent
 report_directory = os.path.join(main_path, "Reportes")
+
 logging_file_path = os.path.join(report_directory, "report_ssh_honeypot.log")
 logging.basicConfig(
     filename=logging_file_path,
