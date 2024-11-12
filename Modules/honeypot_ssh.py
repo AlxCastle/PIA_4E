@@ -5,7 +5,16 @@ import logging
 import paramiko
 from termcolor import colored
 from datetime import datetime
-
+import os
+#configure the logging
+main_path = os.path.dirname(os.path.abspath(__file__))
+report_directory = os.path.join(main_path, "Reportes")
+logging_file_path = os.path.join(report_directory, "report_ssh_honeypot.log")
+logging.basicConfig(
+    filename=logging_file_path,
+    level=logging.INFO, 
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+)
 #Global variable to control stopping the SSH honeypot
 stop_server = False  
 
@@ -31,14 +40,6 @@ def get_local_ip():
     finally:
         sock.close()
     return local_ip
-
-
-#Configure basic logging settings
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO,
-    filename='report_ssh_honeypot.log'
-)
 
 
 class SshHoneypot(paramiko.ServerInterface):
