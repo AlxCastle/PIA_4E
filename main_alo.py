@@ -77,11 +77,11 @@ def menu_python(name):
                             return None   
                     Ports=scan_ports_tcp() 
                     port_shodan="port: "+str(ports)
-                    search_vulnerabilities(APIKEY,port_shodan,FileName)             
+                    search_vulnerabilities(APIKEY,port_shodan,name)             
                 else:
                     ports=input("Ingrese los puertos que quiera ver, en caso de ser mas de uno separarlos por una coma y un espacio")
                     port_shodan="port: "+str(ports)
-                    search_vulnerabilities(APIKEY,port_shodan,FileName)       
+                    search_vulnerabilities(APIKEY,port_shodan,name)       
         
             elif option == 3:
                 APIKEY=input("Ingrese la API key que se usara para conectarse a la API de IPAbuseDB")
