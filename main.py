@@ -10,10 +10,10 @@ import re
 from datetime import datetime
 from termcolor import colored
 from PowershellToPython.PyToPs import menu_powershell
-from Modules.honeypot_ssh import start_honeypot
-from Modules.modules_api import search_vulnerabilities, suspicious_ip
-from Modules.analyze_connections import analyze_connections
-from Modules.suspicious_services import suspicious_services
+from ModulesPython.honeypot_ssh import start_honeypot
+from ModulesPython.modules_api import search_vulnerabilities, suspicious_ip
+from ModulesPython.analyze_connections import analyze_connections
+from ModulesPython.suspicious_services import suspicious_services
 
 
 
@@ -29,7 +29,7 @@ report_directory = os.path.join(main_path, "Reportes")
 os.makedirs(report_directory, exist_ok=True)
 
 def hash_file(file_path):
-        """Calcula el hash SHA-256 de un archivo y lo imprime junto con la fecha y ubicación del archivo."""
+        """This function calculates the SHA-256 hash of a file and prints it with the date and location."""
         try:
             with open(file_path, "rb") as f:
                 file_data = f.read()
@@ -49,6 +49,7 @@ def hash_file(file_path):
             print(f"Ocurrió un error al calcular el hash: {e}")
 
 def menu_python(name):
+    """This function has all the options that are executed in python."""
     def menu():
         """This function contains the format of the menu."""
         msg = "-"*50+"""
@@ -148,8 +149,9 @@ def menu_python(name):
 
 
 def menu_bash(name):
+    """This function has all the options that are executed in bash."""
     dir_path = os.path.dirname(os.path.abspath(__file__))
-    folder_path = os.path.join(dir_path, "modules_bash")
+    folder_path = os.path.join(dir_path, "ModulesBash")
 
     def menu():
         """Este menú contiene opciones específicas para tareas de Bash."""
@@ -189,7 +191,7 @@ def menu_bash(name):
                     data = result.stdout
 
                     file_name = f"{name}.csv"
-                    report_path = os.path.join(dir_path, "Reporte")
+                    report_path = os.path.join(dir_path, "Reportes")
                     file_path = os.path.join(report_path, f"{name}.csv")
                     lines = data.splitlines()
 
@@ -247,7 +249,7 @@ def menu_bash(name):
                                 result.check_returncode()  # Verifica si el proceso fue exitoso
                                 data = result.stdout
 
-                                report_path = os.path.join(dir_path, "Reporte")
+                                report_path = os.path.join(dir_path, "Reportes")
                                 file_path = os.path.join(report_path, f"{name}.txt")
                                 with open(file_path, "+a") as file: 
                                    file.write(data)
